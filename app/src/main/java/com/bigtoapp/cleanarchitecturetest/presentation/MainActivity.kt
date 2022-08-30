@@ -6,15 +6,18 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.bigtoapp.cleanarchitecturetest.R
+import com.bigtoapp.cleanarchitecturetest.data.repository.UserRepositoryImpl
 import com.bigtoapp.cleanarchitecturetest.domain.models.SaveUserNameParam
 import com.bigtoapp.cleanarchitecturetest.domain.models.UserName
+import com.bigtoapp.cleanarchitecturetest.domain.repository.UserRepositoryInterface
 import com.bigtoapp.cleanarchitecturetest.domain.usecase.GetUserNameUseCase
 import com.bigtoapp.cleanarchitecturetest.domain.usecase.SaveUserNameUseCase
 
 class MainActivity : AppCompatActivity() {
 
-    private val saveUserNameUseCase = SaveUserNameUseCase()
-    private val getUserNameUseCase = GetUserNameUseCase()
+    private val userRepository by lazy {UserRepositoryImpl(applicationContext)}
+    private val saveUserNameUseCase by lazy {SaveUserNameUseCase(userRepository)}
+    private val getUserNameUseCase by lazy {GetUserNameUseCase(userRepository)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
