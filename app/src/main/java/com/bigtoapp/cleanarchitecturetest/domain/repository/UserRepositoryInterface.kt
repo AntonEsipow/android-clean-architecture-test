@@ -7,5 +7,5 @@ interface UserRepositoryInterface {
 
     fun saveName(saveParam: SaveUserNameParam): Boolean
 
-    fun gatName(): UserName
+    fun getName(): UserName
 }

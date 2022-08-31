@@ -1,27 +1,29 @@
 package com.bigtoapp.cleanarchitecturetest.data.repository
 
 import android.content.Context
+import com.bigtoapp.cleanarchitecturetest.data.storage.UserStorage
+import com.bigtoapp.cleanarchitecturetest.data.storage.models.User
 import com.bigtoapp.cleanarchitecturetest.domain.models.SaveUserNameParam
 import com.bigtoapp.cleanarchitecturetest.domain.models.UserName
 import com.bigtoapp.cleanarchitecturetest.domain.repository.UserRepositoryInterface
 
-private const val SHARED_PREFS_NAME = "shared_prefs_name"
-private const val KEY_FIRST_NAME = "firstName"
-private const val KEY_LAST_NAME = "lastName"
-private const val DEFAULT_NAME = "Default name"
-
-class UserRepositoryImpl(context: Context): UserRepositoryInterface {
-
-    private val sharedPreferences = context.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
+class UserRepositoryImpl(private val userStorage: UserStorage): UserRepositoryInterface {
 
     override fun saveName(saveParam: SaveUserNameParam): Boolean {
-        sharedPreferences.edit().putString(KEY_FIRST_NAME, saveParam.name).apply()
-        return true
+        val user = mapToStorage(saveParam)
+        return userStorage.save(user)
     }
 
-    override fun gatName(): UserName {
-        val firstName = sharedPreferences.getString(KEY_FIRST_NAME, "") ?: ""
-        val lastName = sharedPreferences.getString(KEY_LAST_NAME, DEFAULT_NAME) ?: ""
-        return UserName(firstName = firstName, lastName = lastName)
+    override fun getName(): UserName {
+        val user = userStorage.getUser()
+        return mapToDomain(user)
+    }
+
+    private fun mapToStorage(saveParam: SaveUserNameParam): User {
+        return User(firstName = saveParam.name, lastName = "")
+    }
+
+    private fun mapToDomain(user: User): UserName {
+        return UserName(firstName = user.firstName, lastName = user.lastName)
     }
 }

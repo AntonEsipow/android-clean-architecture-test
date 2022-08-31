@@ -6,6 +6,6 @@ import com.bigtoapp.cleanarchitecturetest.domain.repository.UserRepositoryInterf
 class GetUserNameUseCase(private val userRepositoryInterface: UserRepositoryInterface) {
 
     fun execute(): UserName {
-        return userRepositoryInterface.gatName()
+        return userRepositoryInterface.getName()
     }
 }
