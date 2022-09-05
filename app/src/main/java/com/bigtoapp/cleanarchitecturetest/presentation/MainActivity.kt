@@ -14,17 +14,15 @@ import com.bigtoapp.cleanarchitecturetest.domain.models.UserName
 import com.bigtoapp.cleanarchitecturetest.domain.repository.UserRepositoryInterface
 import com.bigtoapp.cleanarchitecturetest.domain.usecase.GetUserNameUseCase
 import com.bigtoapp.cleanarchitecturetest.domain.usecase.SaveUserNameUseCase
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel by viewModel<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        viewModel = ViewModelProvider(this, MainViewModelFactory(this))
-            .get(MainViewModel::class.java)
 
         val dataTextView = findViewById<TextView>(R.id.dataTextView)
         val dataEditText = findViewById<EditText>(R.id.dataEditText)
