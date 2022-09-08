@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.bigtoapp.cleanarchitecturetest.R
 import com.bigtoapp.cleanarchitecturetest.data.repository.UserRepositoryImpl
@@ -14,17 +15,16 @@ import com.bigtoapp.cleanarchitecturetest.domain.models.UserName
 import com.bigtoapp.cleanarchitecturetest.domain.repository.UserRepositoryInterface
 import com.bigtoapp.cleanarchitecturetest.domain.usecase.GetUserNameUseCase
 import com.bigtoapp.cleanarchitecturetest.domain.usecase.SaveUserNameUseCase
+import dagger.hilt.EntryPoint
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        viewModel = ViewModelProvider(this, MainViewModelFactory(this))
-            .get(MainViewModel::class.java)
 
         val dataTextView = findViewById<TextView>(R.id.dataTextView)
         val dataEditText = findViewById<EditText>(R.id.dataEditText)
