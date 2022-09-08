@@ -8,17 +8,10 @@ import com.bigtoapp.cleanarchitecturetest.data.storage.sharedpref.SharedPrefUser
 import com.bigtoapp.cleanarchitecturetest.domain.usecase.GetUserNameUseCase
 import com.bigtoapp.cleanarchitecturetest.domain.usecase.SaveUserNameUseCase
 
-class MainViewModelFactory(context: Context): ViewModelProvider.Factory {
-
-    private val userRepository by lazy {
-        UserRepositoryImpl(userStorage = SharedPrefUserStorage(context = context))
-    }
-    private val saveUserNameUseCase by lazy {
-        SaveUserNameUseCase(userRepository)
-    }
-    private val getUserNameUseCase by lazy {
-        GetUserNameUseCase(userRepository)
-    }
+class MainViewModelFactory(
+    private val saveUserNameUseCase : SaveUserNameUseCase,
+    private val getUserNameUseCase : GetUserNameUseCase
+): ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return MainViewModel(
